@@ -1,0 +1,4 @@
+baseURL = 'https://jinwookkoo.github.io/'
+locale = 'ko-kr'
+title = 'jinwookkoo'
+theme = 'PaperMod'
