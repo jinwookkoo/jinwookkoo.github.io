@@ -1,4 +1,40 @@
-baseURL = 'https://jinwookkoo.github.io/'
-locale = 'ko-kr'
-title = 'jinwookkoo'
-theme = 'PaperMod'
+baseURL = "https://jinwookkoo.github.io/"
+languageCode = "ko-kr"
+title = "Jinwook Koo"
+theme = "PaperMod"
+
+[params]
+defaultTheme = "auto"
+ShowReadingTime = false
+ShowCodeCopyButtons = true
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+
+[params.homeInfoParams]
+Title = "Clean Code, Better Architecture."
+Content = "좋은 코드에 대한 고민을 기록합니다."
+
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
+
+[menu]
+
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "About"
+url = "/about/"
+weight = 2
+
+[[menu.main]]
+name = "Search"
+url = "/search/"
+weight = 3
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
