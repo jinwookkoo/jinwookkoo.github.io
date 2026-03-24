@@ -62,18 +62,16 @@ signInWithPopup(auth, provider)
 먼저 각 플랫폼의 Firebase 설정 파일을 네이티브 환경에 적용하여 구글 로그인 화면을 웹뷰가 아닌 네이티브 영역에서 호출할 수 있도록 구성했다.
 
 ```javascript
-<script>
-    document.getElementById('google-signin').addEventListener('click', () => {
-        if (deviceType === 'android') {
-            window.AppBridge?.postMessage(JSON.stringify({ action: 'GOOGLE' }));
-            return;
-        }
+document.getElementById('google-signin').addEventListener('click', () => {
+    if (deviceType === 'android') {
+        window.AppBridge?.postMessage(JSON.stringify({ action: 'GOOGLE' }));
+        return;
+    }
 
-        window.webkit?.messageHandlers?.AppBridge?.postMessage({
-            action: 'GOOGLE'
-        });
+    window.webkit?.messageHandlers?.AppBridge?.postMessage({
+        action: 'GOOGLE'
     });
-</script>
+});
 ```
 웹뷰에서 구글 로그인 버튼이 클릭되면 플랫폼에 맞는 네이티브 인터페이스로 약속된 액션을 전달하고, 로그인 성공 후에는 전달받은 토큰 값을 기반으로 서버에서 후속 로그인 처리를 진행하도록 구성했다.
 
