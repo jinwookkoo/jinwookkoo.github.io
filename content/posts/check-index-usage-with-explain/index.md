@@ -98,5 +98,5 @@ mysql> EXPLAIN SELECT * FROM users WHERE created_at >= '2022-04-26 00:00:00' AND
 
 인덱스가 존재한다고 해서 항상 사용되는 것은 아니기 때문에, 쿼리를 작성하거나 수정한 뒤에는 `EXPLAIN`을 통해 실제 실행 계획을 함께 확인하는 것이 중요하다.
 
-<div style="font-size:0.9rem; color:#6b7280;">참고: <a href="https://dev.mysql.com/doc/refman/8.0/en/explain.html#explain-table-structure" style="color:#6b7280;">MySQL 공식 문서 - EXPLAIN Statement</a>
+<div style="font-size:0.9rem; color:#666666;">참고: <a href="https://dev.mysql.com/doc/refman/8.0/en/explain.html#explain-table-structure" style="color:#666666;">MySQL 공식 문서 - EXPLAIN Statement</a>
 </div>

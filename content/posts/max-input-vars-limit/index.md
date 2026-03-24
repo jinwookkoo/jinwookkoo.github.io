@@ -15,7 +15,7 @@ tags = ["PHP"]
 
 > **max_input_vars** <u>int</u>  
 > How many <u>input variables</u>  may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately). Use of this directive mitigates the possibility of denial of service attacks which use hash collisions. If there are more input variables than specified by this directive, an **<u>E_WARNING</u>** is issued, and further input variables are truncated from the request.  
-<span style="font-size:0.9rem; color:#6b7280;">
+<span style="font-size:0.9rem; color:#666666;">
     출처: <a href="https://www.php.net/manual/en/info.configuration.php#ini.max-input-vars" style="color:#666666;">PHP 공식 문서 - max_input_vars</a>
 </span>
 
