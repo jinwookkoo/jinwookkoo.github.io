@@ -9,7 +9,7 @@ tags = ["Spring Boot", "Java"]
 
 클라이언트가 어떤 요청을 보냈고 어떤 응답을 받았는지 확인할 수 있다면 문제가 생겼을 때 더 기민하게 대응할 수 있겠다고 생각했다. 그리고 이전에 만들어둔 `CachedContentHttpServletRequest` 덕분에 JSON 요청이 들어오더라도 Body를 여러 번 읽을 수 있었기 때문에, 요청 Body까지 로그로 남길 수 있었다.
 
-> 이전 글: [Filter로 Request Body 다시 읽기](/posts/spring-boot-filter-interceptor/)
+> 이전 글: [Filter로 Request Body 다시 읽기](/posts/spring-boot-mvc-filter-interceptor/)
 
 #### ApiFilter를 LogFilter로 확장하기
 
