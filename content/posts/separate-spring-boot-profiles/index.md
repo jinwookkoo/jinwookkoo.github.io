@@ -1,7 +1,7 @@
 +++
 title = "[Spring Boot] 서버 환경별 설정 분리하기"
 date = "2025-04-12"
-draft = true
+draft = false
 tags = ["Spring Boot", "Java"]
 +++
 
