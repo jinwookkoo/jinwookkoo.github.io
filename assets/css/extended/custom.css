@@ -17,3 +17,8 @@ html, body {
     font-size: 0.85rem;
 }
 
+.post-content h4 {
+    font-size: 19px;
+    font-weight: 700;
+}
+

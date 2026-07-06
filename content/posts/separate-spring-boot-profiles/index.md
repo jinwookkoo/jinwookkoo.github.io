@@ -60,7 +60,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: ${LOCAL_DB_URL}
+    url: ${LOCAL_DB_HOST}
     username: ${LOCAL_DB_USERNAME}
     password: ${LOCAL_DB_PASSWORD}
 ```
@@ -72,7 +72,7 @@ spring:
     activate:
       on-profile: qa
   datasource:
-    url: ${QA_DB_URL}
+    url: ${QA_DB_HOST}
     username: ${QA_DB_USERNAME}
     password: ${QA_DB_PASSWORD}
 ```
@@ -84,7 +84,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: ${PROD_DB_URL}
+    url: ${PROD_DB_HOST}
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
 ```
@@ -101,7 +101,7 @@ project
 
 ```text
 # .env
-LOCAL_DB_URL=local_db_url
+LOCAL_DB_HOST=local_db_host
 LOCAL_DB_USERNAME=local_user
 LOCAL_DB_PASSWORD=local_password
 ```
