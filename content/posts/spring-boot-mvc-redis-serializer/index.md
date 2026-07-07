@@ -1,6 +1,6 @@
 +++
 title = "[Spring Boot] Redis 직렬화(Serializer)"
-date = "2026-07-07"
+date = "2025-04-17"
 draft = false
 tags = ["Spring Boot", "Java", "Redis"]
 +++
