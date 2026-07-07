@@ -64,7 +64,7 @@ public class RedisConfig {
 
 `Lettuce`는 Netty 기반이라 하나의 커넥션 위에서 여러 요청을 동시에 처리할 수 있고, `LettuceConnectionFactory`는 기본적으로 이 커넥션 하나를 공유(`shareNativeConnection = true`)해서 쓴다. 덕분에 요청마다 커넥션을 새로 맺거나 풀에서 빌려올 필요가 없지만, `BLPOP`처럼 응답이 올 때까지 대기하는 Blocking 커맨드나 `MULTI`/`WATCH`를 사용하는 트랜잭션, Pub/Sub 구독처럼 커넥션 하나를 독점해야 하는 작업에는 공유 커넥션을 그대로 쓰면 다른 요청과 뒤섞일 수 있다. 이런 경우에는 `shareNativeConnection`을 `false`로 두고 전용 커넥션을 써야 한다. 지금은 단순 캐싱 용도로만 쓰고 있어서 별도 설정 없이 기본값인 공유 커넥션을 그대로 사용했다.
 
-그리고 `RedisTemplate`을 통해 Redis DB와 상호작용할 수 있는 설정을 입력했는데, `setKeySerializer`와 `setValueSerializer` 메소드로 Redis DB에 저장되는 직렬화 형식을 지정할 수 있었다. 직렬화 방식에는 아래와 같은 선택지가 있었다.
+그리고 `RedisTemplate`을 통해 Redis DB와 상호작용할 수 있는 설정을 입력했는데, `setKeySerializer`와 `setValueSerializer` 메서드로 Redis DB에 저장되는 직렬화 형식을 지정할 수 있었다. 직렬화 방식에는 아래와 같은 선택지가 있었다.
 
 | 방식 | 설명 |
 |------|------|

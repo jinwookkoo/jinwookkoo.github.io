@@ -53,7 +53,7 @@ throw new CustomException("ERROR-AUTH", "인증 오류입니다.");
 
 #### 예외를 전역으로 관리하기
 
-`throw`로 예외를 발생시킬 수는 있게 되었지만, 이 예외를 여기저기서 각자 처리하는 게 아니라 한 곳에서 전역으로 관리하고 싶었다. Spring에서는 `@ExceptionHandler`와 `@ControllerAdvice`로 이를 지원한다. `@ExceptionHandler`는 발생한 예외를 메소드 단위로 처리할 수 있게 해주고, `@ControllerAdvice`는 이 처리를 여러 컨트롤러에 걸쳐 전역으로 적용할 수 있게 해준다. 그리고 `@ControllerAdvice`에 `@ResponseBody`가 결합된 `@RestControllerAdvice`를 쓰면, 처리 결과를 뷰가 아니라 JSON 같은 데이터로 바로 응답할 수 있다.
+`throw`로 예외를 발생시킬 수는 있게 되었지만, 이 예외를 여기저기서 각자 처리하는 게 아니라 한 곳에서 전역으로 관리하고 싶었다. Spring에서는 `@ExceptionHandler`와 `@ControllerAdvice`로 이를 지원한다. `@ExceptionHandler`는 발생한 예외를 메서드 단위로 처리할 수 있게 해주고, `@ControllerAdvice`는 이 처리를 여러 컨트롤러에 걸쳐 전역으로 적용할 수 있게 해준다. 그리고 `@ControllerAdvice`에 `@ResponseBody`가 결합된 `@RestControllerAdvice`를 쓰면, 처리 결과를 뷰가 아니라 JSON 같은 데이터로 바로 응답할 수 있다.
 
 ```java
 @Slf4j
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
 
 #### 예외별로 처리하고 응답 반환하기
 
-`GlobalExceptionHandler`에 실제 처리 메소드를 채워 넣었다. 먼저 필수 파라미터 누락이나 허용되지 않는 타입처럼, Spring에서 자체적으로 던지는 예외부터 원하는 형식으로 응답하도록 했다.
+`GlobalExceptionHandler`에 실제 처리 메서드를 채워 넣었다. 먼저 필수 파라미터 누락이나 허용되지 않는 타입처럼, Spring에서 자체적으로 던지는 예외부터 원하는 형식으로 응답하도록 했다.
 
 ```java
 @ExceptionHandler(value = {
@@ -97,7 +97,7 @@ public ResponseEntity<ResponseDto<Object>> notAllowedTypeException() {
 
 `@ExceptionHandler`에 처리하고 싶은 예외 클래스를 지정하고, `ResponseEntity.status(HttpStatus.BAD_REQUEST)`로 실제 HTTP 상태 코드까지 함께 지정해서 `ResponseDto`를 응답했다. `MissingServletRequestParameterException`은 필수 파라미터가 누락됐을 때, `NumberFormatException`과 `MethodArgumentTypeMismatchException`은 허용되지 않는 타입의 값이 들어왔을 때 발생한다.
 
-그리고 앞서 만든 `CustomException`을 포함해서, 위에서 따로 처리하지 않은 나머지 모든 예외까지 함께 처리하는 메소드도 추가했다.
+그리고 앞서 만든 `CustomException`을 포함해서, 위에서 따로 처리하지 않은 나머지 모든 예외까지 함께 처리하는 메서드도 추가했다.
 
 ```java
 @ExceptionHandler(value = {
@@ -122,7 +122,7 @@ public ResponseEntity<ResponseDto<Object>> exception(Exception exception) {
 }
 ```
 
-`Exception.class`를 지정해서 위에서 따로 처리하지 않은 모든 예외가 이 메소드로 들어오도록 했다. 그중 `CustomException`이면 안에 담아뒀던 에러 코드·메시지를 그대로 꺼내서 `BAD_REQUEST`로 응답하고, 그 외의 예외는 예상하지 못한 상황이므로 `INTERNAL_SERVER_ERROR`와 함께 예외 메시지를 담아 응답하도록 했다.
+`Exception.class`를 지정해서 위에서 따로 처리하지 않은 모든 예외가 이 메서드로 들어오도록 했다. 그중 `CustomException`이면 안에 담아뒀던 에러 코드·메시지를 그대로 꺼내서 `BAD_REQUEST`로 응답하고, 그 외의 예외는 예상하지 못한 상황이므로 `INTERNAL_SERVER_ERROR`와 함께 예외 메시지를 담아 응답하도록 했다.
 
 #### 실행 결과
 
@@ -149,4 +149,4 @@ public ResponseEntity<ResponseDto<Object>> exception(Exception exception) {
 }
 ```
 
-각 상황에 맞게 발생시키거나 던져진 예외가, `GlobalExceptionHandler`를 거쳐 실제 HTTP 상태 코드와 `ResponseDto` 형식을 모두 갖춘 응답으로 일관되게 내려가는 것을 확인할 수 있었다. 다만 지금은 `resultCode`나 메시지를 메소드마다 문자열로 직접 적고 있는데, 앞으로 응답 코드가 늘어나면 한 곳에서 관리할 수 있도록 개선이 필요할 것 같다.
+각 상황에 맞게 발생시키거나 던져진 예외가, `GlobalExceptionHandler`를 거쳐 실제 HTTP 상태 코드와 `ResponseDto` 형식을 모두 갖춘 응답으로 일관되게 내려가는 것을 확인할 수 있었다. 다만 지금은 `resultCode`나 메시지를 메서드마다 문자열로 직접 적고 있는데, 앞으로 응답 코드가 늘어나면 한 곳에서 관리할 수 있도록 개선이 필요할 것 같다.

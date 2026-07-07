@@ -21,7 +21,7 @@ API 요청을 받고 서비스 로직을 처리하기에 앞서 인증하는 과
 
 #### Interceptor 적용하기
 
-`HandlerInterceptor` 인터페이스를 구현하는 `ApiInterceptor` 클래스부터 만들었다. 컨트롤러가 호출되기 전에 인증을 처리해야 하므로 `preHandle` 메소드를 사용했다.
+`HandlerInterceptor` 인터페이스를 구현하는 `ApiInterceptor` 클래스부터 만들었다. 컨트롤러가 호출되기 전에 인증을 처리해야 하므로 `preHandle` 메서드를 사용했다.
 
 ```java
 public class ApiInterceptor implements HandlerInterceptor {
@@ -63,7 +63,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 
 쿼리·폼 파라미터는 `getParameterNames()`로 순회하며 추출하면 되지만, Content-Type이 `application/json`인 요청은 Body에서 직접 읽어와야 했다. 그래서 `getInputStream()`으로 Body를 읽어 JSON으로 파싱한 뒤 같은 `params` Map에 담고, 마지막에 `checkApiAuthentication`으로 인증을 체크하도록 작성했다.
 
-이제 인터셉터를 등록해야 사용할 수 있으므로, `WebMvcConfigurer` 인터페이스를 구현하는 `WebMvcConfig` 클래스를 만들었다. `ApiInterceptor`를 빈으로 등록한 뒤, `addInterceptors` 메소드로 인터셉터를 등록하고 적용할 URL 패턴을 지정했다.
+이제 인터셉터를 등록해야 사용할 수 있으므로, `WebMvcConfigurer` 인터페이스를 구현하는 `WebMvcConfig` 클래스를 만들었다. `ApiInterceptor`를 빈으로 등록한 뒤, `addInterceptors` 메서드로 인터셉터를 등록하고 적용할 URL 패턴을 지정했다.
 
 ```java
 @Configuration
@@ -143,7 +143,7 @@ public class CachedContentHttpServletRequest extends HttpServletRequestWrapper {
 }
 ```
 
-`Filter` 인터페이스를 구현하는 `ApiFilter` 클래스를 만들었다. `doFilter` 메소드에서 `HttpServletRequest`를 `CachedContentHttpServletRequest`로 감싼 뒤, 그 객체를 다음 체인으로 넘기도록 작성했다.
+`Filter` 인터페이스를 구현하는 `ApiFilter` 클래스를 만들었다. `doFilter` 메서드에서 `HttpServletRequest`를 `CachedContentHttpServletRequest`로 감싼 뒤, 그 객체를 다음 체인으로 넘기도록 작성했다.
 
 ```java
 public class ApiFilter implements Filter {
@@ -192,7 +192,7 @@ log.info("[Interceptor] request={}", httpServletRequest);
 ```
 
 ```java
-// Controller 메소드
+// Controller 메서드
 log.info("[Controller] request={}", httpServletRequest);
 ```
 

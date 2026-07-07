@@ -116,7 +116,7 @@ if (!document.getUserId().equals(accessUserId) && "SECRET".equals(document.getSt
 }
 ```
 
-`Document`는 행동이 아닌 데이터의 역할만 하고 있기 때문에, 비밀글을 처리하는 책임이 서비스 계층에 남아있다. 이렇게 되면 비밀글 처리가 필요한 다른 메소드에도 같은 로직을 반복해서 넣어야 하고, 처리 방식이 바뀌면 그 모든 곳을 다 찾아 고쳐야 한다.
+`Document`는 행동이 아닌 데이터의 역할만 하고 있기 때문에, 비밀글을 처리하는 책임이 서비스 계층에 남아있다. 이렇게 되면 비밀글 처리가 필요한 다른 메서드에도 같은 로직을 반복해서 넣어야 하고, 처리 방식이 바뀌면 그 모든 곳을 다 찾아 고쳐야 한다.
 
 3. **서비스 계층과 영속 계층이 강하게 결합되어 있다.**
 
@@ -124,7 +124,7 @@ if (!document.getUserId().equals(accessUserId) && "SECRET".equals(document.getSt
 Document document = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(idx);
 ```
 
-`DocumentService`가 `SqlSessionTemplate`을 직접 주입받아 사용하고 있다. 만약 DB 접근 방식을 MyBatis에서 JPA로 변경한다면, `SqlSessionTemplate`을 사용하는 모든 메소드를 수정해야 하므로 서비스 계층에도 직접적인 영향이 생긴다.
+`DocumentService`가 `SqlSessionTemplate`을 직접 주입받아 사용하고 있다. 만약 DB 접근 방식을 MyBatis에서 JPA로 변경한다면, `SqlSessionTemplate`을 사용하는 모든 메서드를 수정해야 하므로 서비스 계층에도 직접적인 영향이 생긴다.
 
 #### 헥사고날 아키텍처(Hexagonal Architecture)란
 
@@ -322,7 +322,7 @@ public void updateContentToSecret(String accessUserId) {
 }
 ```
 
-비밀글 처리 로직이 `Document`의 `updateContentToSecret` 메소드로 옮겨지면서, 관련 로직을 수정할 때 도메인 영역만 고치면 된다.
+비밀글 처리 로직이 `Document`의 `updateContentToSecret` 메서드로 옮겨지면서, 관련 로직을 수정할 때 도메인 영역만 고치면 된다.
 
 3. **외부 시스템 접근 방식이 바뀌어도 서비스 계층은 영향을 받지 않는다.**
 

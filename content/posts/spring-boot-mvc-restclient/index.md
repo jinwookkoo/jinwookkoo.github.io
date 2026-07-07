@@ -65,7 +65,7 @@ public class RestClientConfig {
 }
 ```
 
-`RestClient`의 `builder` 메소드로 빈을 생성했고, `requestInterceptor`에 `ClientHttpRequestInterceptor`를 등록해서 API 요청·응답을 로그로 남기도록 했다. `execution.execute(request, body)`를 호출하기 전에는 요청 정보(메소드, URI, 헤더, Body)를 로그로 남기고, 호출한 뒤에는 그 결과로 받은 응답 정보(상태 코드, 헤더, Body)를 로그로 남긴다.
+`RestClient`의 `builder` 메서드로 빈을 생성했고, `requestInterceptor`에 `ClientHttpRequestInterceptor`를 등록해서 API 요청·응답을 로그로 남기도록 했다. `execution.execute(request, body)`를 호출하기 전에는 요청 정보(메서드, URI, 헤더, Body)를 로그로 남기고, 호출한 뒤에는 그 결과로 받은 응답 정보(상태 코드, 헤더, Body)를 로그로 남긴다.
 
 #### RestClientManager 만들기
 
@@ -106,7 +106,7 @@ public <T> T get(
 }
 ```
 
-GET 요청은 URL 뒤에 쿼리 파라미터를 붙여야 하기 때문에 `UriComponentsBuilder` 클래스를 사용해서 추가했다. `restClient`의 `uri` 메소드는 `String` 타입으로 전달하면 인코딩을 한 번 더 진행하고, `URI` 타입으로 전달하면 인코딩을 진행하지 않는다. `UriComponentsBuilder`의 `toUriString` 메소드 내부를 보면 자동으로 인코딩을 진행(`build().encode().toUriString()`)하기 때문에, `String` 타입 그대로 넘기면 이중 인코딩이 발생한다. 그래서 `URI` 타입으로 변환한 뒤에 전달했다. 그리고 제네릭을 활용해서 반환되는 객체의 타입을 매개변수로 지정할 수 있도록 했는데, `Class<T>`가 아니라 `ParameterizedTypeReference<T>`를 사용한 이유는 구체적인 타입 정보를 명시하기 위해서였다.
+GET 요청은 URL 뒤에 쿼리 파라미터를 붙여야 하기 때문에 `UriComponentsBuilder` 클래스를 사용해서 추가했다. `restClient`의 `uri` 메서드는 `String` 타입으로 전달하면 인코딩을 한 번 더 진행하고, `URI` 타입으로 전달하면 인코딩을 진행하지 않는다. `UriComponentsBuilder`의 `toUriString` 메서드 내부를 보면 자동으로 인코딩을 진행(`build().encode().toUriString()`)하기 때문에, `String` 타입 그대로 넘기면 이중 인코딩이 발생한다. 그래서 `URI` 타입으로 변환한 뒤에 전달했다. 그리고 제네릭을 활용해서 반환되는 객체의 타입을 매개변수로 지정할 수 있도록 했는데, `Class<T>`가 아니라 `ParameterizedTypeReference<T>`를 사용한 이유는 구체적인 타입 정보를 명시하기 위해서였다.
 
 예외가 발생했을 때 그대로 던지지 않고 `null`을 반환하도록 한 이유는, 외부 API 호출이 실패했다고 해서 전체 로직까지 실패해야 하는 건 아니었기 때문이다. 이후에 나올 POST, PUT, DELETE도 같은 이유로 동일한 방식을 사용했다.
 
@@ -174,7 +174,7 @@ public RestClient restClient() {
 
 #### 파일 전송(Multipart) POST 요청 구현하기
 
-POST 요청에서 주로 사용하는 Content-Type에는 `application/x-www-form-urlencoded`, `application/json` 말고도 파일을 전송할 때 쓰는 `multipart/form-data`가 있다. 그래서 파일을 전송할 수 있는 `postByMultipart` 메소드를 추가로 구현했다.
+POST 요청에서 주로 사용하는 Content-Type에는 `application/x-www-form-urlencoded`, `application/json` 말고도 파일을 전송할 때 쓰는 `multipart/form-data`가 있다. 그래서 파일을 전송할 수 있는 `postByMultipart` 메서드를 추가로 구현했다.
 
 ```java
 public <T> T postByMultipart(
@@ -240,7 +240,7 @@ public <T> T put(
 
 #### DELETE 요청 구현하기
 
-`RestClient`는 `get`, `post`, `put`, `delete` 메소드를 편의상 만들어두었지만, `delete` 메소드로 만든 요청에서는 `body` 메소드를 호출할 수 없었다. DELETE 요청에는 보통 본문을 포함하지 않지만, API 서버 구현 방식에 따라 본문이 필요한 경우도 있어서 `method` 메소드를 사용해 구현했다.
+`RestClient`는 `get`, `post`, `put`, `delete` 메서드를 편의상 만들어두었지만, `delete` 메서드로 만든 요청에서는 `body` 메서드를 호출할 수 없었다. DELETE 요청에는 보통 본문을 포함하지 않지만, API 서버 구현 방식에 따라 본문이 필요한 경우도 있어서 `method` 메서드를 사용해 구현했다.
 
 ```java
 public <T> T delete(

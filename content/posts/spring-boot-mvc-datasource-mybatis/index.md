@@ -125,11 +125,11 @@ public class MybatisConfig {
 }
 ```
 
-`@Qualifier`로 `DataSourceConfig`에 등록해둔 `DataSource` 빈을 직접 주입받아 `SqlSessionFactory`를 생성했다. `SqlSessionFactory`는 `sqlSessionFactoryBean`의 `getObject` 메소드로 반환되는 객체를 사용하며, 주입받은 `DataSource`를 참조해 MyBatis와 MySQL 서버를 연동한다. `setMapperLocations`로 mapper 파일(xml)의 위치를 지정했고, DB 컬럼이 Snake Case로 되어 있어서 Java에서 쓰기 편하도록 Camel Case로 자동 매핑되게 `setMapUnderscoreToCamelCase`를 설정했다. 마지막으로 생성한 `SqlSessionFactory`로 `SqlSessionTemplate`을 만들었다.
+`@Qualifier`로 `DataSourceConfig`에 등록해둔 `DataSource` 빈을 직접 주입받아 `SqlSessionFactory`를 생성했다. `SqlSessionFactory`는 `sqlSessionFactoryBean`의 `getObject` 메서드로 반환되는 객체를 사용하며, 주입받은 `DataSource`를 참조해 MyBatis와 MySQL 서버를 연동한다. `setMapperLocations`로 mapper 파일(xml)의 위치를 지정했고, DB 컬럼이 Snake Case로 되어 있어서 Java에서 쓰기 편하도록 Camel Case로 자동 매핑되게 `setMapUnderscoreToCamelCase`를 설정했다. 마지막으로 생성한 `SqlSessionFactory`로 `SqlSessionTemplate`을 만들었다.
 
 #### 동작 확인
 
-mapper 파일에 테스트용 쿼리를 작성하고, DAO 인터페이스에 메소드를 선언한 뒤 테스트 코드를 작성해서 호출해봤다.
+mapper 파일에 테스트용 쿼리를 작성하고, DAO 인터페이스에 메서드를 선언한 뒤 테스트 코드를 작성해서 호출해봤다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
