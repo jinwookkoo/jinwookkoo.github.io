@@ -33,12 +33,12 @@ tags = ["Spring Boot", "Java"]
 public class DocumentController {
     private final DocumentService documentService;
 
-    @GetMapping("/{idx}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<DocumentResponse>> getDocument(
-            @PathVariable(value = "idx") int idx,
+            @PathVariable(value = "id") int id,
             @RequestParam(value = "access_user_id", required = false) String accessUserId
     ) {
-        DocumentResponse result = documentService.getDocument(idx, accessUserId);
+        DocumentResponse result = documentService.getDocument(id, accessUserId);
         return ResponseEntity.ok(new ApiResponse<>(200, "SUCCESS", result));
     }
 }
@@ -52,14 +52,14 @@ public class DocumentController {
 public class DocumentService {
     private final SqlSessionTemplate sqlSessionTemplate;
 
-    public DocumentResponse getDocument(int idx, String accessUserId) {
+    public DocumentResponse getDocument(int id, String accessUserId) {
         // 게시글 번호 검증
-        if (idx == 0) {
+        if (id == 0) {
             throw new ApiException("게시글 번호를 올바르게 입력해주세요.");
         }
 
         // 게시글 단일 조회
-        Document document = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(idx);
+        Document document = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(id);
 
         // 접근한 회원이 작성자가 아니며, 비밀글인 경우
         if (!document.getUserId().equals(accessUserId) && "SECRET".equals(document.getStatus())) {
@@ -67,7 +67,7 @@ public class DocumentService {
         }
 
         return DocumentResponse.builder()
-                .idx(document.getIdx())
+                .id(document.getId())
                 .title(document.getTitle())
                 .content(document.getContent())
                 .build();
@@ -82,7 +82,7 @@ public class DocumentService {
 @Setter
 @Builder
 public class Document {
-    private int idx;
+    private int id;
     private String userId;
     private String title;
     private String content;
@@ -100,7 +100,7 @@ public class Document {
 
 ```java
 // 게시글 번호 검증
-if (idx == 0) {
+if (id == 0) {
     throw new ApiException("게시글 번호를 올바르게 입력해주세요.");
 }
 ```
@@ -121,7 +121,7 @@ if (!document.getUserId().equals(accessUserId) && "SECRET".equals(document.getSt
 3. **서비스 계층과 영속 계층이 강하게 결합되어 있다.**
 
 ```java
-Document document = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(idx);
+Document document = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(id);
 ```
 
 `DocumentService`가 `SqlSessionTemplate`을 직접 주입받아 사용하고 있다. 만약 DB 접근 방식을 MyBatis에서 JPA로 변경한다면, `SqlSessionTemplate`을 사용하는 모든 메서드를 수정해야 하므로 서비스 계층에도 직접적인 영향이 생긴다.
@@ -175,13 +175,13 @@ Document document = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(
 public class DocumentController {
     private final DocumentInboundPort documentInboundPort;
 
-    @GetMapping("/{idx}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<DocumentResponse>> getDocument(
-            @PathVariable(value = "idx") int idx,
+            @PathVariable(value = "id") int id,
             @RequestParam(value = "access_user_id", required = false) String accessUserId
     ) {
         DocumentRequest documentRequest = DocumentRequest.builder()
-                .idx(idx)
+                .id(id)
                 .accessUserId(accessUserId)
                 .build();
 
@@ -196,17 +196,17 @@ public class DocumentController {
 ```java
 @Getter
 public class DocumentRequest {
-    private final int idx;
+    private final int id;
     private final String accessUserId;
 
     @Builder
-    public DocumentRequest(int idx, String accessUserId) {
+    public DocumentRequest(int id, String accessUserId) {
         // 게시글 번호 검증
-        if (idx == 0) {
+        if (id == 0) {
             throw new ApiException("게시글 번호를 올바르게 입력해주세요.");
         }
 
-        this.idx = idx;
+        this.id = id;
         this.accessUserId = accessUserId;
     }
 }
@@ -228,13 +228,13 @@ public class DocumentService implements DocumentInboundPort {
 
     @Override
     public DocumentResponse getDocument(DocumentRequest documentRequest) {
-        Document document = documentOutboundPort.loadDocument(documentRequest.getIdx());
+        Document document = documentOutboundPort.loadDocument(documentRequest.getId());
 
         // 작성자 확인 후 비밀글 처리
         document.updateContentToSecret(documentRequest.getAccessUserId());
 
         return DocumentResponse.builder()
-                .idx(document.getIdx())
+                .id(document.getId())
                 .title(document.getTitle())
                 .content(document.getContent())
                 .build();
@@ -248,7 +248,7 @@ public class DocumentService implements DocumentInboundPort {
 @Getter
 @Builder
 public class Document {
-    private int idx;
+    private int id;
     private String userId;
     private String title;
     private String content;
@@ -267,7 +267,7 @@ public class Document {
 
 ```java
 public interface DocumentOutboundPort {
-    Document loadDocument(int idx);
+    Document loadDocument(int id);
 }
 ```
 
@@ -278,11 +278,11 @@ public class DocumentRepositoryAdapter implements DocumentOutboundPort {
     private final DocumentRepository documentRepository;
 
     @Override
-    public Document loadDocument(int idx) {
-        DocumentEntity documentEntity = documentRepository.findByIdx(idx);
+    public Document loadDocument(int id) {
+        DocumentEntity documentEntity = documentRepository.findById(id);
 
         return Document.builder()
-                .idx(documentEntity.getIdx())
+                .id(documentEntity.getId())
                 .userId(documentEntity.getUserId())
                 .title(documentEntity.getTitle())
                 .content(documentEntity.getContent())
@@ -299,13 +299,13 @@ public class DocumentRepositoryAdapter implements DocumentOutboundPort {
 1. **애플리케이션 코어로 전달되기 전에 DTO에서 검증을 진행한다.**
 
 ```java
-public DocumentRequest(int idx, String accessUserId) {
+public DocumentRequest(int id, String accessUserId) {
     // 게시글 번호 검증
-    if (idx == 0) {
+    if (id == 0) {
         throw new ApiException("게시글 번호를 올바르게 입력해주세요.");
     }
 
-    this.idx = idx;
+    this.id = id;
     this.accessUserId = accessUserId;
 }
 ```

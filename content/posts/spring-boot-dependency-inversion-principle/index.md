@@ -139,7 +139,7 @@ public class DocumentService implements DocumentInboundPort {
 
     @Override
     public DocumentResponse getDocument(DocumentRequest documentRequest) {
-        Document document = documentOutboundPort.loadDocument(documentRequest.getIdx());
+        Document document = documentOutboundPort.loadDocument(documentRequest.getId());
         ...
     }
 }
@@ -147,7 +147,7 @@ public class DocumentService implements DocumentInboundPort {
 
 ```java
 public interface DocumentOutboundPort {
-    Document loadDocument(int idx);
+    Document loadDocument(int id);
 }
 ```
 
@@ -158,11 +158,11 @@ public class DocumentJpaAdapter implements DocumentOutboundPort {
     private final DocumentRepository documentRepository;
 
     @Override
-    public Document loadDocument(int idx) {
-        DocumentEntity documentEntity = documentRepository.findByIdx(idx);
+    public Document loadDocument(int id) {
+        DocumentEntity documentEntity = documentRepository.findById(id);
 
         return Document.builder()
-                .idx(documentEntity.getIdx())
+                .id(documentEntity.getId())
                 .userId(documentEntity.getUserId())
                 .title(documentEntity.getTitle())
                 .content(documentEntity.getContent())
@@ -183,11 +183,11 @@ public class DocumentMybatisAdapter implements DocumentOutboundPort {
     private final SqlSessionTemplate sqlSessionTemplate;
 
     @Override
-    public Document loadDocument(int idx) {
-        DocumentVo documentVo = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(idx);
+    public Document loadDocument(int id) {
+        DocumentVo documentVo = sqlSessionTemplate.getMapper(DocumentDao.class).getDocument(id);
 
         return Document.builder()
-                .idx(documentVo.getIdx())
+                .id(documentVo.getId())
                 .userId(documentVo.getUserId())
                 .title(documentVo.getTitle())
                 .content(documentVo.getContent())

@@ -41,16 +41,16 @@ public class DocumentController {
 
     // 게시글 등록
     @PostMapping
-    public ResponseEntity<ApiResponse<InsertDocumentResponse>> insertDocument(
-            @RequestBody InsertDocumentRequest insertDocumentRequest
+    public ResponseEntity<ApiResponse<CreateDocumentResponse>> createDocument(
+            @RequestBody CreateDocumentRequest createDocumentRequest
     ) {
-        InsertDocumentResponse result = documentInboundPort.insertDocument(insertDocumentRequest);
+        CreateDocumentResponse result = documentInboundPort.createDocument(createDocumentRequest);
         return ResponseEntity.ok(new ApiResponse<>(200, "SUCCESS", result));
     }
 }
 ```
 
-게시글 목록 조회 메서드(`getDocuments`)는 GET 요청이라 `@RequestParam`으로 파라미터를 하나씩 받은 뒤 컨트롤러 안에서 직접 `DocumentsRequest` 객체로 조립하고 있다. 반면 게시글 등록 메서드(`insertDocument`)는 POST 요청이라 `@RequestBody`로 처음부터 DTO 그대로 전달받는다. 조회 메서드는 이렇게 파라미터를 하나씩 받다 보니, 파라미터가 추가될 때마다 `DocumentController`의 메서드까지 함께 수정해야 하는 문제가 있었다. 그래서 조회 메서드도 등록 메서드처럼 DTO로 바로 전달받을 수 있도록 `@ModelAttribute`를 적용해보기로 했다.
+게시글 목록 조회 메서드(`getDocuments`)는 GET 요청이라 `@RequestParam`으로 파라미터를 하나씩 받은 뒤 컨트롤러 안에서 직접 `DocumentsRequest` 객체로 조립하고 있다. 반면 게시글 등록 메서드(`createDocument`)는 POST 요청이라 `@RequestBody`로 처음부터 DTO 그대로 전달받는다. 조회 메서드는 이렇게 파라미터를 하나씩 받다 보니, 파라미터가 추가될 때마다 `DocumentController`의 메서드까지 함께 수정해야 하는 문제가 있었다. 그래서 조회 메서드도 등록 메서드처럼 DTO로 바로 전달받을 수 있도록 `@ModelAttribute`를 적용해보기로 했다.
 
 #### @ModelAttribute 적용하기
 
