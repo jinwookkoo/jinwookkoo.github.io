@@ -2,7 +2,7 @@
 title = "[Spring Boot] 포트(Port) 인터페이스 분리하기"
 date = "2025-06-03"
 draft = false
-tags = ["Spring Boot", "Java"]
+tags = ["Spring Boot", "Java", "Hexagonal Architecture"]
 +++
 
 #### 포트 인터페이스를 분리하게 된 이유

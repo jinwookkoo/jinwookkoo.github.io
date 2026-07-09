@@ -2,7 +2,7 @@
 title = "[Spring Boot] 의존 역전 원칙(DIP)"
 date = "2025-05-12"
 draft = false
-tags = ["Spring Boot", "Java"]
+tags = ["Spring Boot", "Java", "Hexagonal Architecture"]
 +++
 
 #### DIP를 정리하게 된 이유

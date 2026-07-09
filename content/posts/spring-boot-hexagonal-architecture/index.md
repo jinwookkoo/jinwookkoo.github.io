@@ -2,7 +2,7 @@
 title = "[Spring Boot] 계층형 아키텍처와 헥사고날 아키텍처"
 date = "2025-05-10"
 draft = false
-tags = ["Spring Boot", "Java"]
+tags = ["Spring Boot", "Java", "Hexagonal Architecture"]
 +++
 
 #### 아키텍처를 다시 고민하게 된 이유
