@@ -7,7 +7,7 @@ tags = ["Spring Boot", "Java"]
 
 #### Spring Batch와 Quartz를 함께 쓰게 된 이유
 
-대용량 데이터를 처리해야 하는 상황이 생겼고, 이를 해결할 수 있는 방법을 찾다가 Spring Batch를 적용해보기로 했다. 다만 이 배치 작업은 정해진 주기로 반복되는 게 아니라, 매번 달라지는 원하는 시점 하나에 실행되어야 했다. Spring이 기본으로 제공하는 `@Scheduled`는 일정한 주기로 반복 실행하는 데는 적합하지만, 실행 시점이 매번 달라지는 경우까지 다루기는 어려웠다. 그래서 스케줄링 라이브러리인 Quartz를 함께 사용하기로 했다. 이번 글에서는 Spring Batch로 대용량 데이터를 처리하고, Quartz로 실행 시점을 제어한 방법을 정리해보려고 한다.
+대용량 데이터를 처리해야 하는 상황이 생겼고, 이를 해결할 수 있는 방법을 찾다가 Spring Batch를 적용해보기로 했다. 다만 생성하는 배치 작업들은 정해진 주기로 반복되는 게 아니라, 원하는 주기를 예약하여 실행하고 싶었다. Spring이 기본으로 제공하는 `@Scheduled`는 일정한 주기로 반복 실행하는 데는 적합하지만, 실행 시점이 매번 달라지는 경우까지 다루기는 어려웠다. 그래서 스케줄링 라이브러리인 Quartz를 함께 사용하기로 했다. 이번 글에서는 Spring Batch로 대용량 데이터를 처리하고, Quartz로 실행 시점을 제어한 방법을 정리해보려고 한다.
 
 <img src="batch-process.png" alt="Quartz와 Spring Batch 처리 흐름" style="display:block; width:692px; max-width:100%; margin:20px auto;" />
 
