@@ -1,0 +1,36 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var images = document.querySelectorAll(".post-content img");
+    if (!images.length) return;
+
+    var overlay = document.createElement("div");
+    overlay.className = "lightbox-overlay";
+    var overlayImg = document.createElement("img");
+    overlay.appendChild(overlayImg);
+    document.body.appendChild(overlay);
+
+    function openLightbox(src, alt) {
+        overlayImg.src = src;
+        overlayImg.alt = alt || "";
+        overlay.classList.add("is-active");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+        overlay.classList.remove("is-active");
+        overlayImg.src = "";
+        document.body.style.overflow = "";
+    }
+
+    images.forEach(function (img) {
+        img.addEventListener("click", function () {
+            openLightbox(img.currentSrc || img.src, img.alt);
+        });
+    });
+
+    overlay.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeLightbox();
+    });
+});
+</script>
